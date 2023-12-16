@@ -2,54 +2,32 @@ def main():
     book_path = "/Users/jdpearson/workspace/github.com/Riatasthan/bookbot/books/frankenstein.txt"
     text = get_book_text(book_path)
     num_words = word_count(text)
-    print(f"{num_words} words found in document")
-    print(character_count(text))
+    num_letters = count_letters(text)
+    print(f"The are {num_words} words found in document")
+    for key, value in num_letters.items():
+        print(f'There are {value} of "{key}" in this document')
     return text
 
 def word_count(text):
     words = text.split()
     return(len(words))
 
-def character_count(text):
-    character = {
-        'a': 0,
-        'b': 0,
-        'c': 0,
-        'd': 0,
-        'e': 0,
-        'f' : 0,
-        'g' : 0,
-        'h' : 0,
-        'i' : 0,
-        'j' : 0,
-        'k' : 0,
-        'l' : 0,
-        'm' : 0,
-        'n' : 0,
-        'o' : 0,
-        'p' : 0,
-        'q' : 0,
-        'r' : 0,
-        's' : 0,
-        't' : 0,
-        'u' : 0,
-        'v' : 0,
-        'w' : 0,
-        'x' : 0,
-        'y' : 0,
-        'z' : 0
-    }
-    for i in text:
-        if i in character:
-            character[i] += 1
-        else:
-            character[i] = 1
-    return character
+def count_letters(text):
+    letter_count = {}
 
+    for key in text:
+        if key.isalpha():
+            key = key.lower()
+            letter_count[key] = letter_count.get(key, 0) + 1
+
+    sorted_dict_by_keys = {k: letter_count[k] for k in sorted(letter_count)}
+    sorted_dict_by_values = {k: v for k, v in sorted(letter_count.items(), key=lambda item: item[1], reverse=True)}
+
+    #list_keys = list(letter_count.keys())
+    #list_values = list(letter_count.values())
+    return sorted_dict_by_values
 
 def get_book_text(path):
     with open(path) as f:
-        return f.read()
-    
-
+        return f.read()    
 main()
